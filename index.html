@@ -1,4 +1,4 @@
-<!-- Womingle - Starter Landing Page -->
+<!-- Womingle - Starter Landing + Chat Page -->
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,13 +16,13 @@
         font-family: 'Inter', sans-serif;
         background-color: #0e0e0e;
         color: white;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
         min-height: 100vh;
         padding: 2rem;
         text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
       }
       h1 {
         font-size: 2.5rem;
@@ -57,14 +57,62 @@
         text-decoration: none;
         margin: 0 0.5rem;
       }
+      .chat-box {
+        max-width: 600px;
+        width: 100%;
+        background: #1a1a1a;
+        padding: 2rem;
+        border-radius: 12px;
+        display: none;
+        flex-direction: column;
+        height: 500px;
+        overflow: hidden;
+      }
+      .messages {
+        flex: 1;
+        overflow-y: auto;
+        margin-bottom: 1rem;
+        text-align: left;
+      }
+      .message {
+        padding: 0.5rem;
+        margin-bottom: 0.5rem;
+        background-color: #2e2e2e;
+        border-radius: 6px;
+      }
+      .input-row {
+        display: flex;
+      }
+      .input-row input {
+        flex: 1;
+        padding: 0.75rem;
+        border-radius: 6px 0 0 6px;
+        border: none;
+        outline: none;
+      }
+      .input-row button {
+        padding: 0.75rem 1rem;
+        background-color: #00d084;
+        border: none;
+        color: #000;
+        font-weight: bold;
+        border-radius: 0 6px 6px 0;
+        cursor: pointer;
+      }
     </style>
   </head>
   <body>
     <h1>Welcome to Womingle</h1>
     <p>Talk to strangers. Make new friends. Stay anonymous. Always clean.</p>
-    <a href="/chat">
-      <button class="start-btn">Start Chatting</button>
-    </a>
+    <button class="start-btn" onclick="startChat()">Start Chatting</button>
+
+    <div class="chat-box" id="chatBox">
+      <div class="messages" id="messages"></div>
+      <div class="input-row">
+        <input type="text" id="chatInput" placeholder="Type a message..." />
+        <button onclick="sendMessage()">Send</button>
+      </div>
+    </div>
 
     <footer>
       <p>
@@ -72,5 +120,39 @@
         <a href="#">Terms of Use</a>
       </p>
     </footer>
+
+    <script>
+      const chatBox = document.getElementById('chatBox');
+      const messages = document.getElementById('messages');
+      const input = document.getElementById('chatInput');
+
+      function startChat() {
+        chatBox.style.display = 'flex';
+        messages.innerHTML += '<div class="message">👋 You are now chatting with a stranger...</div>';
+      }
+
+      function sendMessage() {
+        const msg = input.value.trim();
+        if (!msg) return;
+        const messageElement = document.createElement('div');
+        messageElement.className = 'message';
+        messageElement.textContent = 'You: ' + msg;
+        messages.appendChild(messageElement);
+        input.value = '';
+        messages.scrollTop = messages.scrollHeight;
+        // Simulated response
+        setTimeout(() => {
+          const reply = document.createElement('div');
+          reply.className = 'message';
+          reply.textContent = 'Stranger: ' + generateFakeResponse(msg);
+          messages.appendChild(reply);
+          messages.scrollTop = messages.scrollHeight;
+        }, 800);
+      }
+
+      function generateFakeResponse(input) {
+        return "That's interesting!"; // Placeholder logic
+      }
+    </script>
   </body>
 </html>
